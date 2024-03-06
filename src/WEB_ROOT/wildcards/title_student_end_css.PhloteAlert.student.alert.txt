@@ -1,0 +1,30 @@
+<script type="text/javascript">
+  var stu_frn = "~(frn)";
+  /* ~[tlist_sql; 
+SELECT
+  (MAX 
+    (CASE
+      WHEN scf.Phlote IS NULL THEN 0
+      WHEN UPPER(scf.Phlote) LIKE 'YES' THEN 1
+      WHEN UPPER(scf.Phlote) LIKE 'NO' THEN 0
+      ELSE 0
+    END)
+  ) AS phloteAlertImgSelector
+  
+FROM Students s
+
+JOIN StudentCoreFields scf
+  ON s.Dcid = scf.StudentsDcid
+
+WHERE s.Dcid = ~(rn) 
+GROUP BY s.Dcid
+  ;] */
+
+  var intPhloteAlertImgSelector = ~(phloteAlertImgSelector);
+  if (intPhloteAlertImgSelector > 0) {
+    // TODO: Change document.write() to $j('#content-main h1:first').append()
+    document.write("<a title='PHLOTE Alert' id='phlote_alert' href='/admin/alerts/Phlote_Alert.html?frn=" + 
+                     stu_frn + "' class='dialogM'><img src="'/images/img/phlote_translation_alert.png'" alt='PHLOTE Alert'/></a>");
+  }
+  /* [/tlist_sql] */
+</script>
