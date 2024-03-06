@@ -1,0 +1,6 @@
+*.code-workspace
+src/*.zip
+src/*/images*
+*Phlote_Alert*
+*classattend*
+*teachers_header*
