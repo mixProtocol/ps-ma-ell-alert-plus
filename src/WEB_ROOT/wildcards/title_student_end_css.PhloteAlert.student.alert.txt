@@ -2,21 +2,24 @@
   var stu_frn = "~(frn)";
   /* ~[tlist_sql; 
 SELECT
-  (MAX 
-    (CASE
-      WHEN scf.Phlote IS NULL THEN 0
-      WHEN UPPER(scf.Phlote) LIKE 'YES' THEN 1
-      WHEN UPPER(scf.Phlote) LIKE 'NO' THEN 0
-      ELSE 0
-    END)
-  ) AS phloteAlertImgSelector
+  s.Dcid AS sDcid
   
 FROM Students s
 
-JOIN StudentCoreFields scf
-  ON s.Dcid = scf.StudentsDcid
+LEFT OUTER JOIN U_Def_Ext_Students udes
+  ON s.Dcid = udes.StudentsDcid
 
-WHERE s.Dcid = ~(rn) 
+LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
+  ON s.Dcid = smsdx.StudentsDcid
+  
+LEFT OUTER JOIN StudentCoreFields scf
+  ON s.Dcid = scf.StudentsDcid
+  
+WHERE s.Dcid = ~(rn)
+  AND ( TO_NUMBER(smsdx.LEPProgramStatus) IN (1,2,3,4,5)
+        OR TO_NUMBER(smsdx.LimitedEnglishProficiency) IN (1)
+        OR UPPER(scf.Phlote) LIKE '1' )
+
 GROUP BY s.Dcid
   ;] */
 
