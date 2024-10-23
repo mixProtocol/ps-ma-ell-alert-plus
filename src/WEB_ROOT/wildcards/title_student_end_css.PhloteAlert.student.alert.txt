@@ -19,7 +19,7 @@ LEFT OUTER JOIN StudentCoreFields scf
 WHERE s.Dcid = ~(rn)
   AND ( TO_NUMBER(smsdx.LEPProgramStatus) IN (1,2,3,4,5)
         OR TO_NUMBER(smsdx.LimitedEnglishProficiency) IN (1)
-        OR UPPER(scf.Phlote) LIKE '1' )
+        OR UPPER(scf.Phlote) LIKE 'YES' )
 
 GROUP BY s.Dcid
   ;] */
