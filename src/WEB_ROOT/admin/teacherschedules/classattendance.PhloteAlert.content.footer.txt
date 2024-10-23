@@ -28,12 +28,11 @@ $j(document).ready(function() {
     LEFT OUTER JOIN StudentCoreFields scf
       ON s.Dcid = scf.StudentsDcid
       
-    WHERE s.Dcid = ~(rn)
-      AND ( TO_NUMBER(smsdx.LEPProgramStatus) IN (1,2,3,4,5)
+    WHERE ( TO_NUMBER(smsdx.LEPProgramStatus) IN (1,2,3,4,5)
             OR TO_NUMBER(smsdx.LimitedEnglishProficiency) IN (1)
-            OR UPPER(scf.Phlote) IN ('YES', '1'))
+            OR UPPER(scf.Phlote) IN ('YES', '1') )
 
-    GROUP BY cc.Id
+    GROUP BY s.Dcid, cc.Id
     ]*/
     ~(jsonObj),
     /*[/tlist_sql]*/
