@@ -36,7 +36,7 @@
               OR TO_NUMBER(smsdx.LimitedEnglishProficiency) IN (1)
               OR UPPER(scf.Phlote) IN ('YES', '1') )
   
-      GROUP BY cc.Id
+      GROUP BY s,Dcid, cc.Id
       ]*/
       ~(jsonObj),
       /*[/tlist_sql]*/
