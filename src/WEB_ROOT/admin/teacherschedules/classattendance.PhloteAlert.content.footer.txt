@@ -1,0 +1,57 @@
+<script type = 'text/javascript'>
+$j(document).ready(function() {
+
+  var arrEllAlertCCIDS = new Array();
+  arrEllAlertCCIDS.push(  /* ~[tlist_sql;
+    SELECT
+      JSON_OBJECT (
+        'sDcid' VALUE TO_CHAR(s.Dcid),
+        'ccId' VALUE TO_CHAR(cc.Id)
+      )
+      
+    FROM Students s
+
+    JOIN CC cc
+      ON s.Id = cc.StudentId
+     AND s.SchoolId = cc.SchoolId 
+     AND FLOOR(ABS(cc.TermID)/100) = ~(curyearid)
+     AND ( ABS(cc.SectionID) = (~(gpv.sectionid;num) - 0)
+           OR TO_CHAR(ABS(cc.SectionID)) LIKE '~(rn)'
+           OR 'multimeeting' LIKE LOWER('~(gpv.pagetype;sqlText)') )
+
+    LEFT OUTER JOIN U_Def_Ext_Students udes
+      ON s.Dcid = udes.StudentsDcid
+
+    LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
+      ON s.Dcid = smsdx.StudentsDcid
+      
+    LEFT OUTER JOIN StudentCoreFields scf
+      ON s.Dcid = scf.StudentsDcid
+      
+    WHERE s.Dcid = ~(rn)
+      AND ( TO_NUMBER(smsdx.LEPProgramStatus) IN (1,2,3,4,5)
+            OR TO_NUMBER(smsdx.LimitedEnglishProficiency) IN (1)
+            OR UPPER(scf.Phlote) IN ('YES', '1'))
+
+    GROUP BY cc.Id
+    ]*/
+    ~(jsonObj),
+    /*[/tlist_sql]*/
+    {});
+
+  // Remove the last object from the array, if it's empty
+  if ($j.isEmptyObject(arrEllAlertCCIDS[arrEllAlertCCIDS.length-1])) {
+    arrEllAlertCCIDS.pop();
+  }
+
+  for (i=0; i<arrEllAlertCCIDS.length; i++) {
+    var ps_alerts = $j('#ccid_' + arrEllAlertCCIDS[i].ccId + ' td.cvDemarcation:eq(1)');
+
+    if (ps_alerts.length > 0) {
+      var strPhloteAlertLink = "<a title='PHLOTE Alert' id='phlote_alert' href='/admin/alerts/Phlote_Alert.html?frn=" +  arrEllAlertCCIDS[i].sDcid + "' class='dialogM'><img src='/images/img/phlote_translation_alert.png' alt='PHLOTE Alert'/></a>";
+      ps_alerts.append(strPhloteAlertLink);
+    }
+  }
+
+});
+</script>
