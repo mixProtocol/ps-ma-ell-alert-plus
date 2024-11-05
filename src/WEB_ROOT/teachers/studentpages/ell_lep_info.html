@@ -1,0 +1,115 @@
+<!--NoLink-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>English Learner Information</title>
+  <!-- required scripts -->
+  ~[wc:commonscripts]
+  <!-- Required style sheets: screen.css, and print.css -->
+  <link href="/images/css/screen.css" rel="stylesheet" media="screen">
+  <link href="/images/css/print.css" rel="stylesheet" media="print">
+  <script type="text/javascript">
+    <!-- Begin
+    function formHandler(form){
+    var URL = document.navigation.page.options[document.navigation.page.selectedIndex].value;
+    window.location.href = URL;
+    }
+    // End -->
+  </script>
+</head>
+
+<body>
+
+  ~[wc:teachers_header_fr_css]
+
+  <form name="navigation">
+    ~[wc:teachers_title_student_begin_css]
+    English Learner Information
+    ~[wc:teachers_title_student_end_css]
+  </form>
+
+  <div class="box-round">
+    <table class="grid">
+      <tr>
+        <td>PHLOTE</td>
+        <td>~(StudentCoreFields.phlote)</td>
+      </tr>
+      <tr>
+        <td>LEP Entry Date</td>
+        <td>~(U_Students_Extension.LEP_EntryDate)</td>
+      </tr>
+      <tr>
+        <td>LEP Exit Date</td>
+        <td>~(U_Students_Extension.LEP_ExitDate)</td>
+      </tr>
+      <tr>
+        <td>LEP Screened Out Date</td>
+        <td>~(U_Students_Extension.LEP_ScreenedOutDate)</td>
+      </tr>
+    </table>
+    <table class="grid">
+      <thead>
+        <tr>
+          <th>Data<br />Element</th>
+          <th>Description</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DOE008</td>
+          <td>City/Town of Birth</td>
+          <td>~(S_MA_STU_DEMOGRAPHIC_X.BirthCity)</td>
+        </tr>
+        <tr>
+          <td>DOE021</td>
+          <td>EL Students in their First Year in U.S. Schools</td>
+          <td>~(S_MA_STU_Demographic_X.LEP1stYrInUS)</td>
+        </tr>
+        <tr>
+          <td>DOE022</td>
+          <td>Immigrant Status</td>
+          <td>~(S_MA_STU_DEMOGRAPHIC_X.ImmigrantStatus)</td>
+        </tr>
+        <tr>
+          <td>DOE023</td>
+          <td>Country of Origin</td>
+          <td>~(S_MA_STU_DEMOGRAPHIC_X.CountryOfOrigin)</td>
+        </tr>
+        <tr>
+          <td>DOE024</td>
+          <td>First/Native Language Code</td>
+          <td>~(S_MA_STU_DEMOGRAPHIC_X.NativeLanguage)</td>
+        </tr>
+        <tr>
+          <td>DOE025</td>
+          <td>Limited English Proficiency</td>
+          <td>~(S_MA_STU_Demographic_X.LimitedEnglishProficiency)</td>
+        </tr>
+        <tr>
+          <td>DOE026</td>
+          <td>ELL Program Status</td>
+          <td>~(S_MA_STU_Demographic_X.LEPProgramStatus)</td>
+        </tr>
+        <tr>
+          <td>DOE028</td>
+          <td>Seal of Biliteracy</td>
+          <td>~(S_STU_X.SealofBiliteracy)</td>
+        </tr>
+        <tr>
+          <td>DOE041</td>
+          <td>SLIFE</td>
+          <td>~(S_MA_STU_SIMS_X.ELL_SLIFE)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <!-- end of content area -->
+  ~[wc:teachers_footer_fr_css]
+</body>
+
+</html>
