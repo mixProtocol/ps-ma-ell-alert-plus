@@ -106,7 +106,99 @@
     </table>
   </div>
 
-
+  <script type="text/javascript">
+    (function getStudentInfo() {
+    
+      var arrStudentInfo = new Array();
+      arrStudentInfo.push(  /* ~[tlist_sql;
+    
+      SELECT
+        JSON_OBJECT(
+          's_dcid' VALUE s.Dcid,
+          'student_number' VALUE s.Student_Number,
+          'first_name' VALUE s.First_Name,
+          'last_name' VALUE s.Last_Name,
+          'phlote' VALUE scf.Phlote,
+          'county_of_origin' VALUE smsdx.CountryOfOrigin,
+          'DateOfEntryIntoUSA' VALUE scf.DateOfEntryIntoUSA,
+          'PrimaryLanguage' VALUE scf.PrimaryLanguage,
+          'SecondaryLanguage' VALUE scf.SecondaryLanguage,  
+          'lep_entry_date' VALUE TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY'),
+          'lep_exit_date' VALUE TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY'),
+          'lep_screened_out_date' VALUE TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY'),
+          'code_descr_pairs' VALUE JSON_OBJECT(
+            'LEP1stYrInUS' VALUE JSON_OBJECT ('code' VALUE smsdx.LEP1stYrInUS, 'descr' VALUE pscc_MA_LEPinUS.Description),
+            'ImmigrantStatus' VALUE JSON_OBJECT ('code' VALUE smsdx.ImmigrantStatus, 'descr' VALUE pscc_MA_ImmgrStatus.Description),
+            'native_language' VALUE JSON_OBJECT ('code' VALUE smsdx.NativeLanguage, 'descr' VALUE pscc_MA_NativeLang.Description),
+            'LimitedEnglishProficiency' VALUE JSON_OBJECT ('code' VALUE smsdx.LimitedEnglishProficiency, 'descr' VALUE pscc_MA_EngProficiency.Description),
+            'ell_slife' VALUE JSON_OBJECT ('code' VALUE smssx.ELL_SLIFE, 'descr' VALUE pscc_MA_SLIFE.Description),
+            'seal_of_biliteracy' VALUE JSON_OBJECT ('code' VALUE ssx.SealofBiliteracy, 'descr' VALUE pscc_SealofBilit.Description)
+          )
+        )
+      
+      FROM Students s
+      
+      LEFT OUTER JOIN U_Def_Ext_Students udes
+        ON s.Dcid = udes.StudentsDcid
+        
+      LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
+        ON s.Dcid = smsdx.StudentsDcid
+        
+      LEFT OUTER JOIN StudentCoreFields scf
+        ON s.Dcid = scf.StudentsDcid
+      
+      LEFT OUTER JOIN S_MA_STU_SIMS_X smssx
+        ON s.Dcid = smssx.StudentsDcid
+      
+      LEFT OUTER JOIN S_Stu_X ssx
+        ON s.Dcid = ssx.StudentsDcid
+      
+      LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_LEPinUS
+        ON smsdx.LEP1stYrInUS =  pscc_MA_LEPinUS.Code
+      AND pscc_MA_LEPinUS.PS_GROUP LIKE 'MA_XX'
+      AND pscc_MA_LEPinUS.CATEGORY  LIKE 'MA_LEPinUS'
+      
+      LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_ImmgrStatus
+        ON smsdx.ImmigrantStatus = pscc_MA_ImmgrStatus.Code 
+      AND pscc_MA_ImmgrStatus.PS_GROUP LIKE 'MA_XX'
+      AND pscc_MA_ImmgrStatus.CATEGORY LIKE 'MA_ImmgrStatus'
+            
+      LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_NativeLang
+        ON smsdx.NativeLanguage = pscc_MA_NativeLang.Code 
+      AND pscc_MA_NativeLang.PS_GROUP LIKE 'MA_XX'
+      AND pscc_MA_NativeLang.CATEGORY LIKE 'nceslangcode'
+      
+      LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_EngProficiency
+        ON smsdx.LimitedEnglishProficiency = pscc_MA_EngProficiency.Code 
+      AND pscc_MA_EngProficiency.PS_GROUP LIKE 'MA_XX'
+      AND pscc_MA_EngProficiency.CATEGORY LIKE 'MA_EngProficiency'
+      
+      LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_BilingualStat
+        ON smsdx.LEPProgramStatus = pscc_MA_BilingualStat.Code 
+      AND pscc_MA_BilingualStat.PS_GROUP LIKE 'MA_XX'
+      AND pscc_MA_BilingualStat.CATEGORY LIKE 'BilingualStat'
+            
+      LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_SLIFE
+        ON smssx.ELL_SLIFE = pscc_MA_SLIFE.Code 
+      AND pscc_MA_SLIFE.PS_GROUP LIKE 'MA_XX'
+      AND pscc_MA_SLIFE.CATEGORY LIKE 'ELL_SLIFE'
+            
+      LEFT OUTER JOIN PS_COMMON_CODE pscc_SealofBilit
+        ON ssx.SealofBiliteracy = pscc_SealofBilit.Code 
+      AND pscc_SealofBilit.PS_GROUP LIKE 'COMMON'
+      AND pscc_SealofBilit.CATEGORY LIKE 'SealofBilitUpdate'
+            
+      WHERE s.Student_Number = 99999999
+        ]*/
+        ~(jsonObj),
+        /*[/tlist_sql]*/{});
+    
+      // Remove the last object from the array, if it's empty
+      if ($j.isEmptyObject(arrStudentInfo[arrStudentInfo.length-1])) {
+          arrDailyTimes.pop();
+      }
+    })();
+  </script>
 
   <!-- end of content area -->
   ~[wc:teachers_footer_fr_css]
