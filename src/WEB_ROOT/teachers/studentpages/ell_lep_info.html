@@ -28,175 +28,179 @@
     English Learner Information
     ~[wc:teachers_title_student_end_css]
   </form>
-
+  
   <div class="box-round">
+    
+    ~[tlist_sql;
+    SELECT
+      scf.Phlote AS Phlote,
+      TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY') AS LEP_EntryDate,
+      TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY') AS LEP_ExitDate,
+      TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY') AS LEP_ScreenedOutDate,
+      smsdx.BirthCity AS BirthCity,
+      smsdx.CountryOfOrigin AS CountryOfOrigin_Code,
+      pscc_MA_CountryOfOrigin.Description AS CountryOfOrigin_descr,
+      scf.DateOfEntryIntoUSA AS DateOfEntryIntoUSA,
+      scf.PrimaryLanguage AS PrimaryLanguage,
+      scf.SecondaryLanguage AS SecondaryLanguage,  
+      smsdx.LEP1stYrInUS AS LEP1stYrInUS_code,
+      pscc_MA_LEPinUS.Description AS LEP1stYrInUS_descr,
+      smsdx.ImmigrantStatus AS ImmigrantStatus_code,
+      pscc_MA_ImmgrStatus.Description AS ImmigrantStatus_descr,
+      smsdx.NativeLanguage AS NativeLanguage_code,
+      smsdx.NativeLanguage AS NativeLanguage_descr,
+      smsdx.LimitedEnglishProficiency AS LimitedEnglishProficiency_code,
+      pscc_MA_EngProficiency.Description AS LimitedEnglishProficiency_descr,
+      smssx.ELL_SLIFE AS ELL_SLIFE_code,
+      pscc_MA_SLIFE.Description AS ELL_SLIFE_descr,
+      ssx.SealofBiliteracy AS SealofBiliteracy_code,
+      pscc_SealofBilit.Description AS SealofBiliteracy_descr
+    
+    FROM Students s
+         
+    LEFT OUTER JOIN U_Def_Ext_Students udes
+      ON s.Dcid = udes.StudentsDcid
+      
+    LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
+      ON s.Dcid = smsdx.StudentsDcid
+      
+    LEFT OUTER JOIN StudentCoreFields scf
+      ON s.Dcid = scf.StudentsDcid
+    
+    LEFT OUTER JOIN S_MA_STU_SIMS_X smssx
+      ON s.Dcid = smssx.StudentsDcid
+    
+    LEFT OUTER JOIN S_Stu_X ssx
+      ON s.Dcid = ssx.StudentsDcid
+    
+    LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_CountryOfOrigin
+      ON smsdx.CountryOfOrigin = pscc_MA_CountryOfOrigin.Code
+     AND pscc_MA_CountryOfOrigin.PS_GROUP LIKE 'MA_XX'
+     AND pscc_MA_CountryOfOrigin.CATEGORY LIKE 'MA_CountryOrigin'
+    
+    LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_LEPinUS
+      ON smsdx.LEP1stYrInUS =  pscc_MA_LEPinUS.Code
+     AND pscc_MA_LEPinUS.PS_GROUP LIKE 'MA_XX'
+     AND pscc_MA_LEPinUS.CATEGORY LIKE 'MA_LEPinUS'
+    
+    LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_ImmgrStatus
+      ON smsdx.ImmigrantStatus = pscc_MA_ImmgrStatus.Code 
+     AND pscc_MA_ImmgrStatus.PS_GROUP LIKE 'MA_XX'
+     AND pscc_MA_ImmgrStatus.CATEGORY LIKE 'MA_ImmgrStatus'
+          
+    LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_NativeLang
+      ON smsdx.NativeLanguage = pscc_MA_NativeLang.Code 
+     AND pscc_MA_NativeLang.PS_GROUP LIKE 'MA_XX'
+     AND pscc_MA_NativeLang.CATEGORY LIKE 'nceslangcode'
+    
+    LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_EngProficiency
+      ON smsdx.LimitedEnglishProficiency = pscc_MA_EngProficiency.Code 
+     AND pscc_MA_EngProficiency.PS_GROUP LIKE 'MA_XX'
+     AND pscc_MA_EngProficiency.CATEGORY LIKE 'MA_EngProficiency'
+    
+    LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_BilingualStat
+      ON smsdx.LEPProgramStatus = pscc_MA_BilingualStat.Code 
+     AND pscc_MA_BilingualStat.PS_GROUP LIKE 'MA_XX'
+     AND pscc_MA_BilingualStat.CATEGORY LIKE 'BilingualStat'
+          
+    LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_SLIFE
+      ON smssx.ELL_SLIFE = pscc_MA_SLIFE.Code 
+     AND pscc_MA_SLIFE.PS_GROUP LIKE 'MA_XX'
+     AND pscc_MA_SLIFE.CATEGORY LIKE 'ELL_SLIFE'
+          
+    LEFT OUTER JOIN PS_COMMON_CODE pscc_SealofBilit
+      ON ssx.SealofBiliteracy = pscc_SealofBilit.Code 
+     AND pscc_SealofBilit.PS_GROUP LIKE 'COMMON'
+     AND pscc_SealofBilit.CATEGORY LIKE 'SealofBilitUpdate'
+          
+    WHERE s.Student_Number = 99999999
+    ]
     <table class="grid">
       <tr>
         <td>PHLOTE</td>
-        <td>~(StudentCoreFields.phlote)</td>
+        <td>~(Phlote)</td>
       </tr>
       <tr>
         <td>LEP Entry Date</td>
-        <td>~(U_Students_Extension.LEP_EntryDate)</td>
+        <td>~(LEP_EntryDate)</td>
       </tr>
       <tr>
         <td>LEP Exit Date</td>
-        <td>~(U_Students_Extension.LEP_ExitDate)</td>
+        <td>~(LEP_ExitDate)</td>
       </tr>
       <tr>
         <td>LEP Screened Out Date</td>
-        <td>~(U_Students_Extension.LEP_ScreenedOutDate)</td>
+        <td>~(LEP_ScreenedOutDate)</td>
       </tr>
     </table>
     <table class="grid">
       <thead>
         <tr>
           <th>Data<br />Element</th>
-          <th>Description</th>
+          <th>Name</th>
           <th>Value</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>DOE008</td>
           <td>City/Town of Birth</td>
-          <td>~(S_MA_STU_DEMOGRAPHIC_X.BirthCity)</td>
+          <td>~(BirthCity)</td>
+          <td></td>
         </tr>
         <tr>
           <td>DOE021</td>
           <td>EL Students in their First Year in U.S. Schools</td>
-          <td>~(S_MA_STU_Demographic_X.LEP1stYrInUS)</td>
+          <td>~(LEP1stYrInUS_code)</td>
+          <td>~(LEP1stYrInUS_value)</td>
         </tr>
         <tr>
           <td>DOE022</td>
           <td>Immigrant Status</td>
-          <td>~(S_MA_STU_DEMOGRAPHIC_X.ImmigrantStatus)</td>
+          <td>~(ImmigrantStatus_code)</td>
+          <td>~(ImmigrantStatus_value)</td>
         </tr>
         <tr>
           <td>DOE023</td>
           <td>Country of Origin</td>
-          <td>~(S_MA_STU_DEMOGRAPHIC_X.CountryOfOrigin)</td>
+          <td>~(CountryOfOrigin_code)</td>
+          <td>~(CountryOfOrigin_value)</td>
         </tr>
         <tr>
           <td>DOE024</td>
           <td>First/Native Language Code</td>
-          <td>~(S_MA_STU_DEMOGRAPHIC_X.NativeLanguage)</td>
+          <td>~(NativeLanguage_code)</td>
+          <td>~(NativeLanguage_value)</td>
         </tr>
         <tr>
           <td>DOE025</td>
           <td>Limited English Proficiency</td>
-          <td>~(S_MA_STU_Demographic_X.LimitedEnglishProficiency)</td>
+          <td>~(LimitedEnglishProficiency_code)</td>
+          <td>~(LimitedEnglishProficiency_value)</td>
         </tr>
         <tr>
           <td>DOE026</td>
           <td>ELL Program Status</td>
-          <td>~(S_MA_STU_Demographic_X.LEPProgramStatus)</td>
+          <td>~(LEPProgramStatus_code)</td>
+          <td>~(LEPProgramStatus_value)</td>
         </tr>
         <tr>
           <td>DOE028</td>
           <td>Seal of Biliteracy</td>
-          <td>~(S_STU_X.SealofBiliteracy)</td>
+          <td>~(SealofBiliteracy_code)</td>
+          <td>~(SealofBiliteracy_value)</td>
         </tr>
         <tr>
           <td>DOE041</td>
           <td>SLIFE</td>
-          <td>~(S_MA_STU_SIMS_X.ELL_SLIFE)</td>
+          <td>~(ELL_SLIFE_code)</td>
+          <td>~(ELL_SLIFE_value)</td>
         </tr>
       </tbody>
     </table>
+    [/tlist_sql]
   </div>
-
-~[tlist_sql;
-    
-SELECT
-  s.Dcid AS Student_Dcid,
-  s.Student_Number AS Student_Number,
-  s.First_Name AS First_Name,
-  s.Last_Name AS Last_Name,
-  scf.Phlote AS Phlote,
-  smsdx.CountryOfOrigin AS CountryOfOrigin_Code,
-  pscc_MA_CountryOfOrigin.Description AS CountryOfOrigin_descr,
-  scf.DateOfEntryIntoUSA AS DateOfEntryIntoUSA,
-  scf.PrimaryLanguage AS PrimaryLanguage,
-  scf.SecondaryLanguage AS SecondaryLanguage,  
-  TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY') AS LEP_EntryDate,
-  TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY') AS LEP_ExitDate,
-  TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY') AS LEP_ScreenedOutDate,
-  smsdx.LEP1stYrInUS AS LEP1stYrInUS_code,
-  pscc_MA_LEPinUS.Description AS LEP1stYrInUS_descr,
-  smsdx.ImmigrantStatus AS ImmigrantStatus_code,
-  pscc_MA_ImmgrStatus.Description AS ImmigrantStatus_descr,
-  smsdx.NativeLanguage AS NativeLanguage_code,
-  smsdx.NativeLanguage AS NativeLanguage_descr,
-  smsdx.LimitedEnglishProficiency AS LimitedEnglishProficiency_code,
-  pscc_MA_EngProficiency.Description AS LimitedEnglishProficiency_descr,
-  smssx.ELL_SLIFE AS ELL_SLIFE_code,
-  pscc_MA_SLIFE.Description AS ELL_SLIFE_descr,
-  ssx.SealofBiliteracy AS SealofBiliteracy_code,
-  pscc_SealofBilit.Description AS SealofBiliteracy_descr
-
-FROM Students s
-     
-LEFT OUTER JOIN U_Def_Ext_Students udes
-  ON s.Dcid = udes.StudentsDcid
-  
-LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
-  ON s.Dcid = smsdx.StudentsDcid
-  
-LEFT OUTER JOIN StudentCoreFields scf
-  ON s.Dcid = scf.StudentsDcid
-
-LEFT OUTER JOIN S_MA_STU_SIMS_X smssx
-  ON s.Dcid = smssx.StudentsDcid
-
-LEFT OUTER JOIN S_Stu_X ssx
-  ON s.Dcid = ssx.StudentsDcid
-
-LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_CountryOfOrigin
-  ON smsdx.CountryOfOrigin = pscc_MA_CountryOfOrigin.Code
- AND pscc_MA_CountryOfOrigin.PS_GROUP LIKE 'MA_XX'
- AND pscc_MA_CountryOfOrigin.CATEGORY LIKE 'MA_CountryOrigin'
-
-LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_LEPinUS
-  ON smsdx.LEP1stYrInUS =  pscc_MA_LEPinUS.Code
- AND pscc_MA_LEPinUS.PS_GROUP LIKE 'MA_XX'
- AND pscc_MA_LEPinUS.CATEGORY LIKE 'MA_LEPinUS'
-
-LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_ImmgrStatus
-  ON smsdx.ImmigrantStatus = pscc_MA_ImmgrStatus.Code 
- AND pscc_MA_ImmgrStatus.PS_GROUP LIKE 'MA_XX'
- AND pscc_MA_ImmgrStatus.CATEGORY LIKE 'MA_ImmgrStatus'
-      
-LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_NativeLang
-  ON smsdx.NativeLanguage = pscc_MA_NativeLang.Code 
- AND pscc_MA_NativeLang.PS_GROUP LIKE 'MA_XX'
- AND pscc_MA_NativeLang.CATEGORY LIKE 'nceslangcode'
-
-LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_EngProficiency
-  ON smsdx.LimitedEnglishProficiency = pscc_MA_EngProficiency.Code 
- AND pscc_MA_EngProficiency.PS_GROUP LIKE 'MA_XX'
- AND pscc_MA_EngProficiency.CATEGORY LIKE 'MA_EngProficiency'
-
-LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_BilingualStat
-  ON smsdx.LEPProgramStatus = pscc_MA_BilingualStat.Code 
- AND pscc_MA_BilingualStat.PS_GROUP LIKE 'MA_XX'
- AND pscc_MA_BilingualStat.CATEGORY LIKE 'BilingualStat'
-      
-LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_SLIFE
-  ON smssx.ELL_SLIFE = pscc_MA_SLIFE.Code 
- AND pscc_MA_SLIFE.PS_GROUP LIKE 'MA_XX'
- AND pscc_MA_SLIFE.CATEGORY LIKE 'ELL_SLIFE'
-      
-LEFT OUTER JOIN PS_COMMON_CODE pscc_SealofBilit
-  ON ssx.SealofBiliteracy = pscc_SealofBilit.Code 
- AND pscc_SealofBilit.PS_GROUP LIKE 'COMMON'
- AND pscc_SealofBilit.CATEGORY LIKE 'SealofBilitUpdate'
-      
-WHERE s.Student_Number = 99999999
-]
-  ~(jsonObj),
-[/tlist_sql]
-        
 
   <!-- end of content area -->
   ~[wc:teachers_footer_fr_css]
