@@ -38,23 +38,23 @@
       TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY') AS LEP_ExitDate,
       TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY') AS LEP_ScreenedOutDate,
       smsdx.BirthCity AS BirthCity,
-      smsdx.CountryOfOrigin AS CountryOfOrigin_Code,
-      pscc_MA_CountryOfOrigin.Description AS CountryOfOrigin_descr,
-      scf.DateOfEntryIntoUSA AS DateOfEntryIntoUSA,
-      scf.PrimaryLanguage AS PrimaryLanguage,
-      scf.SecondaryLanguage AS SecondaryLanguage,  
       smsdx.LEP1stYrInUS AS LEP1stYrInUS_code,
       pscc_MA_LEPinUS.Description AS LEP1stYrInUS_descr,
       smsdx.ImmigrantStatus AS ImmigrantStatus_code,
       pscc_MA_ImmgrStatus.Description AS ImmigrantStatus_descr,
+      smsdx.CountryOfOrigin AS CountryOfOrigin_Code,
+      pscc_MA_CountryOfOrigin.Description AS CountryOfOrigin_descr,
       smsdx.NativeLanguage AS NativeLanguage_code,
-      smsdx.NativeLanguage AS NativeLanguage_descr,
+      pscc_MA_NativeLang.Description AS NativeLanguage_descr,
       smsdx.LimitedEnglishProficiency AS LimitedEnglishProficiency_code,
       pscc_MA_EngProficiency.Description AS LimitedEnglishProficiency_descr,
       smssx.ELL_SLIFE AS ELL_SLIFE_code,
       pscc_MA_SLIFE.Description AS ELL_SLIFE_descr,
       ssx.SealofBiliteracy AS SealofBiliteracy_code,
-      pscc_SealofBilit.Description AS SealofBiliteracy_descr
+      pscc_SealofBilit.Description AS SealofBiliteracy_descr,
+      scf.DateOfEntryIntoUSA AS DateOfEntryIntoUSA,
+      scf.PrimaryLanguage AS PrimaryLanguage,
+      scf.SecondaryLanguage AS SecondaryLanguage
     
     FROM Students s
          
@@ -116,25 +116,35 @@
     WHERE s.Student_Number = 99999999
     ]
     <table class="grid">
-      <tr>
-        <td>PHLOTE</td>
-        <td>~(Phlote)</td>
-      </tr>
-      <tr>
-        <td>LEP Entry Date</td>
-        <td>~(LEP_EntryDate)</td>
-      </tr>
-      <tr>
-        <td>LEP Exit Date</td>
-        <td>~(LEP_ExitDate)</td>
-      </tr>
-      <tr>
-        <td>LEP Screened Out Date</td>
-        <td>~(LEP_ScreenedOutDate)</td>
-      </tr>
+      <thead>
+        <tr>
+            <th colspan="2">District Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td width="50%">PHLOTE</td>
+          <td width="50%">~(Phlote)</td>
+        </tr>
+        <tr>
+          <td>LEP Entry Date</td>
+          <td>~(LEP_EntryDate)</td>
+        </tr>
+        <tr>
+          <td>LEP Exit Date</td>
+          <td>~(LEP_ExitDate)</td>
+        </tr>
+        <tr>
+          <td>LEP Screened Out Date</td>
+          <td>~(LEP_ScreenedOutDate)</td>
+        </tr>
+        </tbody>
     </table>
     <table class="grid">
       <thead>
+        <tr>
+          <th colspan="4">SIMS/State Reporting Information</th>
+        </tr>
         <tr>
           <th>Data<br />Element</th>
           <th>Name</th>
