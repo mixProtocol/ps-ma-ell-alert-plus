@@ -33,10 +33,10 @@
     
     ~[tlist_sql;
     SELECT
-      scf.Phlote AS Phlote,
       TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY') AS LEP_EntryDate,
       TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY') AS LEP_ExitDate,
       TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY') AS LEP_ScreenedOutDate,
+      scf.Phlote AS Phlote,
       smsdx.BirthCity AS BirthCity,
       smsdx.LEP1stYrInUS AS LEP1stYrInUS_code,
       pscc_MA_LEPinUS.Description AS LEP1stYrInUS_descr,
@@ -127,12 +127,8 @@
       </thead>
       <tbody>
         <tr>
-          <td width="50%">PHLOTE</td>
-          <td width="50%">~(Phlote)</td>
-        </tr>
-        <tr>
-          <td>LEP Entry Date</td>
-          <td>~(LEP_EntryDate)</td>
+          <td width="50%">LEP Entry Date</td>
+          <td width="50%">~(LEP_EntryDate)</td>
         </tr>
         <tr>
           <td>LEP Exit Date</td>
@@ -142,7 +138,7 @@
           <td>LEP Screened Out Date</td>
           <td>~(LEP_ScreenedOutDate)</td>
         </tr>
-        </tbody>
+      </tbody>
     </table>
     <table class="grid">
       <thead>
@@ -156,6 +152,11 @@
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td>Household requires translation</td>
+          <td style="font-size:80%;text-align:center;">Phlote</td>
+          <td>~(Phlote)</td>
+        </tr>
         <tr>
           <td>City/Town of Birth</td>
           <td style="font-size:80%;text-align:center;">DOE008</td>
