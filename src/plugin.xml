@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://plugin.powerschool.pearson.com"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		    description="Student PHLOTE Alerts"
-		    name="Student PHLOTE Alerts"
-		    version="20241023.01"
+		    description="Student MA ELL Alert Plus"
+		    name="Student MA ELL Alert Plus"
+		    version="20241108.01"
 		    xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd">
 		
     <publisher name="George Skuse">
