@@ -20,5 +20,5 @@ WHERE s.Dcid = ~(rn)
 
 GROUP BY s.Dcid
 ;]
-  <a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/teachers/alerts/MA_ELL_Alert.html?frn=001~(stu_dcid)' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert' style='margin-right:2px;' /></a>
+<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/teachers/alerts/MA_ELL_Alert.html?frn=001~(stu_dcid)' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert' style='margin-right:2px;' /></a>
 [/tlist_sql]
