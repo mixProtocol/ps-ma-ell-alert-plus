@@ -1,10 +1,6 @@
 <script type = 'text/javascript'>
 $j(document).ready(function() {
 
-  var arrEllAlertCCIDS = new Array();
-  arrEllAlertCCIDS.push(  
-    {});
-
   // 'scrape' ccids from IDs within the attendance table
   const ccids = $j('#attendance-table .studentrow[id^="ccid_"]')
 	                  // convert to IDs to integers (after removing the first 5 characters: 'ccid_') 
@@ -12,20 +8,41 @@ $j(document).ready(function() {
                      // join integers into a comma-seperated list (no quotes)
 	                  .get().join(',');                                                       
   
+  $j.ajax({
+    type: 'POST', 
+    dataType: 'json',
+    cache: 'false',
+    url: '/admin/teacherschedules/classattendance.MA_ELL_AlertPlus.json', 
+    data: {
+      "sectionid" : "~(gpv.sectionid;json)",
+      "pagetype" : "~(gpv.pagetype;json)",
+      "Period_ID" : "~(gpv.Period_ID;json)",
+      "CCIDs" : ccids.toString()
+    },
+    // TODO: refactor success as done
+    success: function(data) {
 
-  // Remove the last object from the array, if it's empty
-  if ($j.isEmptyObject(arrEllAlertCCIDS[arrEllAlertCCIDS.length-1])) {
-    arrEllAlertCCIDS.pop();
-  }
+      // Remove the last object from the array, if it's empty
+      if ($j.isEmptyObject(data[data.length-1])) {
+        data.pop();
+      }
+      
+      for (i=0; i<data.length; i++){
+        // look for the row w/ a ccid_XXXXXX that matches the ccid and,
+        // if it exists, append an icon linked to the alert dialog
+        const ps_alerts = $j('#ccid_' + data[i].ccId + ' td.cvDemarcation:eq(1)');
 
-  for (i=0; i<arrEllAlertCCIDS.length; i++) {
-    var ps_alerts = $j('#ccid_' + arrEllAlertCCIDS[i].ccId + ' td.cvDemarcation:eq(1)');
-
-    if (ps_alerts.length > 0) {
-      var strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/admin/alerts/MA_ELL_Alert.html?frn=001" +  arrEllAlertCCIDS[i].sDcid + "' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert'/></a>";
-      ps_alerts.append(strPhloteAlertLink);
+        if (ps_alerts.length > 0) {
+          const strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/admin/alerts/MA_ELL_Alert.html?frn=001" +  data[i].sDcid + "' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert'/></a>";
+          ps_alerts.append(strPhloteAlertLink);
+        }
+      }
+    },
+    // TODO: refactor error as fail
+    error: function() {
+      // AJAX/JSON error
     }
-  }
+  });
 
 });
 </script>
