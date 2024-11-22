@@ -1,0 +1,24 @@
+~[tlist_sql; 
+SELECT
+  s.Dcid AS sDcid
+
+FROM Students s
+
+LEFT OUTER JOIN U_Def_Ext_Students udes
+  ON s.Dcid = udes.StudentsDcid
+
+  LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
+  ON s.Dcid = smsdx.StudentsDcid
+
+LEFT OUTER JOIN StudentCoreFields scf
+  ON s.Dcid = scf.StudentsDcid
+
+WHERE s.Dcid = ~(rn)
+  AND ( TO_NUMBER(smsdx.LEPProgramStatus) IN (1,2,3,4,5)
+        OR TO_NUMBER(smsdx.LimitedEnglishProficiency) IN (1)
+        OR UPPER(scf.Phlote) LIKE 'YES' )
+
+GROUP BY s.Dcid
+;]
+<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert_~(frn)' href='/teachers/alerts/MA_ELL_Alert.html?frn=~(frn)' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert' style='margin-right:2px;' /></a>
+[/tlist_sql]
