@@ -7,7 +7,7 @@
 		    xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd">
 		
   <publisher name="George Skuse">
-    <contact email="george.skuse@gmail.com" />
+    <contact email="george.skuse@watertown.k12.ma.us" />
   </publisher>
  	
   <autoinstall required="true">
