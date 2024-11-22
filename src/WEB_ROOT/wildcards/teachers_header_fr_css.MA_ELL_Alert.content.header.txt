@@ -1,4 +1,14 @@
 <script type="text/javascript">
+  /* 
+    The primary method to add an alert to page within /teachers/studentpages/ seems to be through
+     /wildcards/teachers_title_student_end_css.PLUGINNAME.student.alert.txt
+     However, some older pages don't include that wildcard.
+
+     So, test if a div with an id of "page-heading-alerts" (added by the new wildcard exists).
+     If that id doesn't exist and the alert icon hasn't already been added, then add it using
+     the "old" method.
+  */
+  
   $j(document).ready(function(){ 
     const stu_frn = "~(frn)";
 
@@ -25,15 +35,12 @@ WHERE s.Dcid = ~(rn)
 GROUP BY s.Dcid
     ;] */
 
-    // var intPhloteAlertImgSelector = ~(phloteAlertImgSelector);
-
-    // if (intTpAlertImgSelector > 0) {
+    if ($j('#page-heading-alerts,[id^="ma_ell_alert"').length === 0) {
       const strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/teachers/alerts/MA_ELL_Alert.html?frn=" + stu_frn +
-                              "' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert'/></a>";
+                              "' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert' style='margin-right:2px;' /></a>";
       
       $j('form,[name=navigation]').children('h1').append(strPhloteAlertLink); 
-    // }
-
+    }
     /* [/tlist_sql] */
   });
 </script>
