@@ -5,6 +5,14 @@ $j(document).ready(function() {
   arrEllAlertCCIDS.push(  
     {});
 
+  // 'scrape' ccids from IDs within the attendance table
+  const ccids = $j('#attendance-table .studentrow[id^="ccid_"]')
+	                  // convert to IDs to integers (after removing the first 5 characters: 'ccid_') 
+                    .map(function() { return parseInt(this.id.toString().slice(5,99),10); })
+                     // join integers into a comma-seperated list (no quotes)
+	                  .get().join(',');                                                       
+  
+
   // Remove the last object from the array, if it's empty
   if ($j.isEmptyObject(arrEllAlertCCIDS[arrEllAlertCCIDS.length-1])) {
     arrEllAlertCCIDS.pop();
