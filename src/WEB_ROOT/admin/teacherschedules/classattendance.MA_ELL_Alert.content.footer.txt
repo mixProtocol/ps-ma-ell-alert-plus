@@ -2,40 +2,7 @@
 $j(document).ready(function() {
 
   var arrEllAlertCCIDS = new Array();
-  arrEllAlertCCIDS.push(  /* ~[tlist_sql;
-    SELECT
-      JSON_OBJECT (
-        'sDcid' VALUE TO_CHAR(s.Dcid),
-        'ccId' VALUE TO_CHAR(cc.Id)
-      )
-      
-    FROM Students s
-
-    JOIN CC cc
-      ON s.Id = cc.StudentId
-     AND s.SchoolId = cc.SchoolId 
-     AND FLOOR(ABS(cc.TermID)/100) = ~(curyearid)
-     AND ( ABS(cc.SectionID) = (~(gpv.sectionid;num) - 0)
-           OR TO_CHAR(ABS(cc.SectionID)) LIKE '~(rn)'
-           OR 'multimeeting' LIKE LOWER('~(gpv.pagetype;sqlText)') )
-
-    LEFT OUTER JOIN U_Def_Ext_Students udes
-      ON s.Dcid = udes.StudentsDcid
-
-    LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
-      ON s.Dcid = smsdx.StudentsDcid
-      
-    LEFT OUTER JOIN StudentCoreFields scf
-      ON s.Dcid = scf.StudentsDcid
-      
-    WHERE ( TO_NUMBER(smsdx.LEPProgramStatus) IN (1,2,3,4,5)
-            OR TO_NUMBER(smsdx.LimitedEnglishProficiency) IN (1)
-            OR UPPER(scf.Phlote) IN ('YES', '1') )
-
-    GROUP BY s.Dcid, cc.Id
-    ]*/
-    ~(jsonObj),
-    /*[/tlist_sql]*/
+  arrEllAlertCCIDS.push(  
     {});
 
   // Remove the last object from the array, if it's empty
