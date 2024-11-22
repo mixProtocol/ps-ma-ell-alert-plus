@@ -3,11 +3,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    description="Student MA ELL Alert Plus"
 		    name="Student MA ELL Alert Plus"
-		    version="20241108.04"
+		    version="20241122.01"
 		    xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd">
 		
-    <publisher name="George Skuse">
-		  <contact email="george.skuse@gmail.com"/>
-    </publisher>
-
+  <publisher name="George Skuse">
+    <contact email="george.skuse@gmail.com" />
+  </publisher>
+ 	
+  <autoinstall required="true">
+      <autoenable required="true" />
+      <autoredeploy />
+  </autoinstall>
 </plugin>
