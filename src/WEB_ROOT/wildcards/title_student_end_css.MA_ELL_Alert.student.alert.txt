@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  var stu_frn = "~(frn)";
+  const stu_frn = "~(frn)";
  
   /* ~[tlist_sql; 
 SELECT

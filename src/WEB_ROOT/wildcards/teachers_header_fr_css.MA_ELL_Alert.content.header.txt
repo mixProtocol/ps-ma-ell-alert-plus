@@ -1,6 +1,6 @@
 <script type="text/javascript">
   $j(document).ready(function(){ 
-    var stu_frn = "~(frn)";
+    const stu_frn = "~(frn)";
 
     /* ~[tlist_sql; 
 SELECT
@@ -28,7 +28,7 @@ GROUP BY s.Dcid
     // var intPhloteAlertImgSelector = ~(phloteAlertImgSelector);
 
     // if (intTpAlertImgSelector > 0) {
-      var strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/teachers/alerts/MA_ELL_Alert.html?frn=" + stu_frn +
+      const strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/teachers/alerts/MA_ELL_Alert.html?frn=" + stu_frn +
                               "' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert'/></a>";
       
       $j('form,[name=navigation]').children('h1').append(strPhloteAlertLink); 
