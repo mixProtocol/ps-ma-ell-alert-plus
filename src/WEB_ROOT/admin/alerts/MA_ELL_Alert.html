@@ -35,7 +35,7 @@ LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_BilingualStat
  AND pscc_MA_BilingualStat.PS_GROUP LIKE 'MA_XX'
  AND pscc_MA_BilingualStat.CATEGORY LIKE 'BilingualStat'
       
-WHERE TO_CHAR('001' || s.Dcid) = ~(studentfrn)
+WHERE s.Dcid = ~(rn)
 ]
     <table width="100%" id="ma_ell_student_alert_sdcid_~(s_dcid)" class="grid" style="border: 1px solid lightgray">
       
