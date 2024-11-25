@@ -1,13 +1,15 @@
-<div class='studentAlert' id='alert-ma-ell-~(studentfrn)' style="width:600px;">
+<div class='studentAlert' id='alert-ma-ell-~(studentfrn)' style="width:640px;">
   <img class='alertImage' src='/images/img/MA_ELL_Alert.png' />
   <div class='alertContent'>
     <p class='alertHeader'>~(studentname)</p>
-    <p>~(first_name) ELL Information<br /></p>
 ~[tlist_sql;
 SELECT
   s.Dcid AS s_dcid,
   scf.Phlote AS Phlote,
+  smsdx.NativeLanguage AS NativeLanguage_code,
   pscc_MA_NativeLang.Description NativeLanguage_descr,
+  smsdx.LEPProgramStatus AS LEPProgramStatus_code,
+  pscc_MA_BilingualStat.Description AS LEPProgramStatus_descr,
   TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY') AS LEP_EntryDate,
   TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY') AS LEP_ExitDate,
   TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY') AS LEP_ScreenedOutDate
@@ -27,30 +29,39 @@ LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_NativeLang
   ON smsdx.NativeLanguage = pscc_MA_NativeLang.Code 
  AND pscc_MA_NativeLang.PS_GROUP LIKE 'MA_XX'
  AND pscc_MA_NativeLang.CATEGORY LIKE 'nceslangcode'
+
+LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_BilingualStat
+  ON smsdx.LEPProgramStatus = pscc_MA_BilingualStat.Code 
+ AND pscc_MA_BilingualStat.PS_GROUP LIKE 'MA_XX'
+ AND pscc_MA_BilingualStat.CATEGORY LIKE 'BilingualStat'
       
 WHERE TO_CHAR('001' || s.Dcid) = ~(studentfrn)
 ]
-    <table width="100%" id="ma_ell_student_alert_sdcid_~(s_dcid)" style="border: 1px solid lightgray">
+    <table width="100%" id="ma_ell_student_alert_sdcid_~(s_dcid)" class="grid" style="border: 1px solid lightgray">
+      
+      <colgroup>
+        <col width="50%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      
       <tbody>
         <tr>
           <td>Household requires translation <span style="font-size:80%;">(PHLOTE)</span></td>
-          <td>~(Phlote)</td>
+          <td colspan="2" data-stored-code-value="~(Phlote)">~(Phlote)</td>
         </tr>
         <tr>
           <td>First/Native Language <span style="font-size:80%;">(DOE024)</span></td>
-          <td>~(NativeLanguage_descr)</td>
+          <td colspan="2" data-stored-code-value="~(NativeLanguage_code)">~(NativeLanguage_value)</td>
         </tr>
         <tr>
-          <td>LEP Entry Date</td>
+          <td>ELE Program Status <span style="font-size:80%;">(DOE026)</span></td>
+          <td  colspan="2" data-stored-code-value="~(LEPProgramStatus_code)">~(LEPProgramStatus_value)</td>
+        </tr>
+        <tr>
+          <td>LEP Entry / Exit Dates</td>
           <td>~(LEP_EntryDate)</td>
-        </tr>
-        <tr>
-          <td>LEP Exit Date</td>
           <td>~(LEP_ExitDate)</td>
-        </tr>
-        <tr>
-          <td>LEP Screened Out Date</td>
-          <td>~(LEP_ScreenedOutDate)</td>
         </tr>
       </tbody>
     </table>
