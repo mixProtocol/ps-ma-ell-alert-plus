@@ -6,16 +6,33 @@
     <span style="font-size:88%;">
 ~[tlist_sql;
 SELECT
-  s.Dcid,
-  s.Student_Number
+  s.Dcid AS s_dcid,
+  scf.Phlote AS Phlote,
+  pscc_MA_NativeLang.Description NativeLanguage_descr
+
 FROM Students s
+
+LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
+  ON s.Dcid = smsdx.StudentsDcid
+
+LEFT OUTER JOIN StudentCoreFields scf
+  ON s.Dcid = scf.StudentsDcid
+
+LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_NativeLang
+  ON smsdx.NativeLanguage = pscc_MA_NativeLang.Code 
+ AND pscc_MA_NativeLang.PS_GROUP LIKE 'MA_XX'
+ AND pscc_MA_NativeLang.CATEGORY LIKE 'nceslangcode'
       
 WHERE TO_CHAR('001' || s.Dcid) = ~(studentfrn)
 ]
-      <table width="100%" style="border: 1px solid lightgray">
-        <tr id="studentDcid-~(s_dcid)">
-            <td><strong>Student Number</strong></td>
-            <td>~(student_number)</td>
+      <table width="100%" id="ma_ell_student_alert_sdcid_~(s_dcid)" style="border: 1px solid lightgray">
+        <tr>
+          <td>Household requires translation <span style="font-size:80%;">(PHLOTE)</span></td>
+          <td>~(Phlote)</td>
+        </tr>
+        <tr>
+          <td>First/Native Language <span style="font-size:80%;">(DOE024)</span></td>
+          <td>~(NativeLanguage_descr,)</td>
         </tr>
     </table>
 [/tlist_sql]
