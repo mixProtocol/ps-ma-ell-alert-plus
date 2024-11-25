@@ -4,21 +4,21 @@
     <p class='alertHeader'>~(studentname)</p>
     <p>~(first_name) ELL Information<br /></p>
     <span style="font-size:88%;">
-    <table width="100%" style="border: 1px solid lightgray">
 ~[tlist_sql;
 SELECT
   s.Dcid,
   s.Student_Number
 FROM Students s
-
+      
 WHERE TO_CHAR('001' || s.Dcid) = ~(studentfrn)
-
-;]      <tr id="studentDcid-~(s_dcid)">
-          <td><strong>Student Number</strong></td>
-          <td>~(student_number)</td>
-      </tr>
-[/tlist_sql]
+;]
+      <table width="100%" style="border: 1px solid lightgray">
+        <tr id="studentDcid-~(s_dcid)">
+            <td><strong>Student Number</strong></td>
+            <td>~(student_number)</td>
+        </tr>
     </table>
+[/tlist_sql]
     </span>
   </div>
 </div>
