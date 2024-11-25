@@ -17,6 +17,9 @@ FROM Students s
 LEFT OUTER JOIN StudentCoreFields scf
   ON s.Dcid = scf.StudentsDcid
   
+LEFT OUTER JOIN U_Def_Ext_Students udes
+  ON s.Dcid = udes.StudentsDcid
+  
 LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
   ON s.Dcid = smsdx.StudentsDcid
 
