@@ -1,6 +1,4 @@
 [
-  ~[if#sec.security.pagenone=/admin/teacherschedules/classattendance.html]
-  [else#sec]
 	~[tlist_sql;
     SELECT
       JSON_OBJECT (
@@ -35,5 +33,4 @@
     ]
     ~(jsonObj),
   [/tlist_sql]
-	[/if#sec]
 {}]
