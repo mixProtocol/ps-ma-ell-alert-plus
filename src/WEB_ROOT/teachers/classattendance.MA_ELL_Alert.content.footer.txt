@@ -33,7 +33,7 @@
           const ps_alerts = $j('#ccid_' + data[i].ccId + ' td.cvDemarcation:eq(1)');
   
           if (ps_alerts.length > 0) {
-            const strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/teachers/alerts/MA_ELL_Alert.html?frn=001" +  data[i].sDcid + "' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert'/></a>";
+            const strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert_" +  data[i].sDcid + "' href='/teachers/alerts/MA_ELL_Alert.html?frn=001" +  data[i].sDcid + "' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert'/></a>";
             ps_alerts.append(strPhloteAlertLink);
           }
         }
