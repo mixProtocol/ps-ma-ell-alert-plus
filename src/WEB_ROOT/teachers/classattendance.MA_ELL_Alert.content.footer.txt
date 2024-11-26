@@ -1,5 +1,6 @@
-<script type = 'text/javascript'>
-  $j(document).ready(function() {
+<script type='text/javascript' class='MA_ELL_AlertPlus_Plugin'>
+(function MA_ELL_AlertPlus() {
+  
   
     // 'scrape' ccids from IDs within the attendance table
     const ccids = $j('#attendance-table .studentrow[id^="ccid_"]')
@@ -21,12 +22,12 @@
       },
       // TODO: refactor success as done
       success: function(data) {
-  
+
         // Remove the last object from the array, if it's empty
         if ($j.isEmptyObject(data[data.length-1])) {
           data.pop();
         }
-        
+       $j(document).ready(function() { 
         for (i=0; i<data.length; i++){
           // look for the row w/ a ccid_XXXXXX that matches the ccid and,
           // if it exists, append an icon linked to the alert dialog
@@ -37,6 +38,7 @@
             ps_alerts.append(strPhloteAlertLink);
           }
         }
+       });
       },
       // TODO: refactor error as fail
       error: function() {
@@ -44,5 +46,6 @@
       }
     });
   
-  });
-  </script>
+
+})();
+</script>
