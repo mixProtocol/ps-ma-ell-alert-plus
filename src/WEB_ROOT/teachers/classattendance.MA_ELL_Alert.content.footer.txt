@@ -1,61 +1,48 @@
 <script type = 'text/javascript'>
   $j(document).ready(function() {
   
-    var arrEllAlertCCIDS = new Array();
-    arrEllAlertCCIDS.push(  /* ~[tlist_sql;
-      SELECT
-        JSON_OBJECT (
-          'sDcid' VALUE TO_CHAR(s.Dcid),
-          'ccId' VALUE TO_CHAR(cc.Id)
-        )
-        
-      FROM Students s
-  
-      JOIN CC cc
-        ON s.Id = cc.StudentId
-       AND s.SchoolId = cc.SchoolId 
-       AND FLOOR(ABS(cc.TermID)/100) = ~(curyearid)
-       AND ( ABS(cc.SectionID) = (~(gpv.sectionid;num) - 0)
-             OR TO_CHAR(ABS(cc.SectionID)) LIKE '~(rn)'
-             OR 'multimeeting' LIKE LOWER('~(gpv.pagetype;sqlText)') )
-
-      JOIN SectionTeacher st
-        ON ABS(cc.SectionID) = st.SectionID
-       AND st.TeacherID = '~[x:userid]'
+    // 'scrape' ccids from IDs within the attendance table
+    const ccids = $j('#attendance-table .studentrow[id^="ccid_"]')
+                      // convert to IDs to integers (after removing the first 5 characters: 'ccid_') 
+                      .map(function() { return parseInt(this.id.toString().slice(5,99),10); })
+                       // join integers into a comma-seperated list (no quotes)
+                      .get().join(',');                                                       
     
-      LEFT OUTER JOIN U_Def_Ext_Students udes
-        ON s.Dcid = udes.StudentsDcid
+    $j.ajax({
+      type: 'POST', 
+      dataType: 'json',
+      cache: 'false',
+      url: '/teachers/classattendance.MA_ELL_AlertPlus.json', 
+      data: {
+        "sectionid" : "~(gpv.sectionid;json)",
+        "pagetype" : "~(gpv.pagetype;json)",
+        "Period_ID" : "~(gpv.Period_ID;json)",
+        "CCIDs" : ccids.toString()
+      },
+      // TODO: refactor success as done
+      success: function(data) {
   
-      LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
-        ON s.Dcid = smsdx.StudentsDcid
+        // Remove the last object from the array, if it's empty
+        if ($j.isEmptyObject(data[data.length-1])) {
+          data.pop();
+        }
         
-      LEFT OUTER JOIN StudentCoreFields scf
-        ON s.Dcid = scf.StudentsDcid
-        
-      WHERE ( TO_NUMBER(smsdx.LEPProgramStatus) IN (1,2,3,4,5)
-              OR TO_NUMBER(smsdx.LimitedEnglishProficiency) IN (1)
-              OR UPPER(scf.Phlote) IN ('YES', '1') )
-            AND ~[x:users_dcid] = 1
+        for (i=0; i<data.length; i++){
+          // look for the row w/ a ccid_XXXXXX that matches the ccid and,
+          // if it exists, append an icon linked to the alert dialog
+          const ps_alerts = $j('#ccid_' + data[i].ccId + ' td.cvDemarcation:eq(1)');
   
-      GROUP BY s.Dcid, cc.Id
-      ]*/
-      ~(jsonObj),
-      /*[/tlist_sql]*/
-      {});
-  
-    // Remove the last object from the array, if it's empty
-    if ($j.isEmptyObject(arrEllAlertCCIDS[arrEllAlertCCIDS.length-1])) {
-      arrEllAlertCCIDS.pop();
-    }
-  
-    for (i=0; i<arrEllAlertCCIDS.length; i++) {
-      var ps_alerts = $j('#ccid_' + arrEllAlertCCIDS[i].ccId + ' td.cvDemarcation:eq(1)');
-  
-      if (ps_alerts.length > 0) {
-        var strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' style='padding-left: 1px;padding-right: 1px;' href='/teachers/alerts/MA_ELL_Alert.html?frn=001" +  arrEllAlertCCIDS[i].sDcid + "' class='dialogM'><img style='vertical-align: text-bottom;' src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert'/></a>";
-        ps_alerts.append(strPhloteAlertLink);
+          if (ps_alerts.length > 0) {
+            const strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert' href='/teachers/alerts/MA_ELL_Alert.html?frn=001" +  data[i].sDcid + "' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert'/></a>";
+            ps_alerts.append(strPhloteAlertLink);
+          }
+        }
+      },
+      // TODO: refactor error as fail
+      error: function() {
+        // AJAX/JSON error
       }
-    }
+    });
   
   });
   </script>
