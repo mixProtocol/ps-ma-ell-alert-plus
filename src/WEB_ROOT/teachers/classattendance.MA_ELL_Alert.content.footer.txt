@@ -45,7 +45,5 @@
         // AJAX/JSON error
       }
     });
-
-
   })();
 </script>
