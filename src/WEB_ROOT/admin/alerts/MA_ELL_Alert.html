@@ -5,14 +5,35 @@
 ~[tlist_sql;
 SELECT
   s.Dcid AS s_dcid,
-  scf.Phlote AS Phlote,
+  CASE
+    WHEN UPPER(scf.Phlote) IN ('YES', '1') THEN 'Yes'
+    WHEN UPPER(scf.Phlote) IN ('NO', '0') THEN 'No'
+    WHEN TRIM(TO_CHAR(scf.Phlote)) LIKE '' THEN 'No (value not set)'
+  END AS Phlote,
   smsdx.NativeLanguage AS NativeLanguage_code,
-  pscc_MA_NativeLang.Description NativeLanguage_descr,
+  CASE
+    WHEN TRIM(TO_CHAR(pscc_MA_NativeLang.Description)) LIKE '' THEN '--'
+    ELSE REPLACE(TO_CHAR(pscc_MA_NativeLang.Description), 
+           CHR(40) || ' ' || TO_CHAR(smsdx.NativeLanguage) || ' ' || CHR(41),
+           '') || ' ' || CHR(40)||smsdx.NativeLanguage || CHR(41)
+  END AS NativeLanguage_descr,
   smsdx.LEPProgramStatus AS LEPProgramStatus_code,
-  pscc_MA_BilingualStat.Description AS LEPProgramStatus_descr,
-  TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY') AS LEP_EntryDate,
-  TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY') AS LEP_ExitDate,
-  TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY') AS LEP_ScreenedOutDate
+  CASE
+    WHEN TO_CHAR(pscc_MA_BilingualStat.Description) = '' THEN '--'
+    ELSE TO_CHAR(pscc_MA_BilingualStat.Description)
+  END AS LEPProgramStatus_descr,
+  CASE
+    WHEN TO_CHAR(udes.LEP_EntryDate) = '' THEN '--'
+    ELSE TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY')
+  END AS LEP_EntryDate,
+  CASE
+    WHEN TO_CHAR(udes.LEP_ExitDate) = '' THEN '--'
+    ELSE TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY')
+  END AS LEP_ExitDate,
+  CASE
+    WHEN TO_CHAR(udes.LEP_ScreenedOutDate) = '' THEN '--'
+    ELSE TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY')
+  END AS LEP_ScreenedOutDate
 
 FROM Students s
 
