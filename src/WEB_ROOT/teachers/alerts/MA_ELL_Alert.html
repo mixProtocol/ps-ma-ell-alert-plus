@@ -1,3 +1,17 @@
+<!-- Bold the PHLOTE and Language values if PHLOTE is Yes-->
+<style>
+  table[id^="ma_ell_student_alert_sdcid"]:has([data-field-name="Phlote"] > [data-stored-code-value^="Yes"]) [data-field-name="Phlote"] [data-stored-code-value],
+  table[id^="ma_ell_student_alert_sdcid"]:has([data-field-name="Phlote"] > [data-stored-code-value^="Yes"]) [data-field-name="NativeLanguage"] [data-stored-code-value] {
+    font-weight: bold;
+  }
+
+  [data-field-name] .source_descr {
+    font-size: 80%;
+    font-weight: normal;
+    color: grey;
+  }
+</style>
+
 <div class='studentAlert' id='alert-ma-ell-~(studentfrn)' style="width:640px;">
   <img class='alertImage' src='/images/img/MA_ELL_Alert.png' />
   <div class='alertContent'>
@@ -5,14 +19,36 @@
 ~[tlist_sql;
 SELECT
   s.Dcid AS s_dcid,
-  scf.Phlote AS Phlote,
+  CASE
+    WHEN scf.Phlote IS NULL THEN 'No (value not set)'
+    WHEN UPPER(scf.Phlote) IN ('YES', '1') THEN 'Yes'
+    WHEN UPPER(scf.Phlote) IN ('NO', '0') THEN 'No'
+    WHEN TRIM(TO_CHAR(scf.Phlote)) LIKE '' THEN 'No (value not set)'
+  END AS Phlote,
   smsdx.NativeLanguage AS NativeLanguage_code,
-  pscc_MA_NativeLang.Description NativeLanguage_descr,
+  CASE
+    WHEN pscc_MA_NativeLang.Description IS NULL THEN CHR(45)||CHR(45)
+    WHEN TRIM(TO_CHAR(pscc_MA_NativeLang.Description)) LIKE '' THEN CHR(45)||CHR(45)
+    ELSE REPLACE(TO_CHAR(pscc_MA_NativeLang.Description), 
+           CHR(40) || ' ' || TO_CHAR(smsdx.NativeLanguage) || ' ' || CHR(41),
+           '') || ' ' || CHR(40) || smsdx.NativeLanguage || CHR(41)
+  END AS NativeLanguage_descr,
   smsdx.LEPProgramStatus AS LEPProgramStatus_code,
-  pscc_MA_BilingualStat.Description AS LEPProgramStatus_descr,
-  TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY') AS LEP_EntryDate,
-  TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY') AS LEP_ExitDate,
-  TO_CHAR(udes.LEP_ScreenedOutDate, 'MM/DD/YYYY') AS LEP_ScreenedOutDate
+  CASE
+    WHEN pscc_MA_BilingualStat.Description IS NULL THEN  CHR(45) || CHR(45)
+    WHEN TO_CHAR(pscc_MA_BilingualStat.Description) = '' THEN CHR(45) || CHR(45)
+    ELSE TO_CHAR(pscc_MA_BilingualStat.Description)
+  END AS LEPProgramStatus_descr,
+  CASE
+    WHEN udes.LEP_EntryDate IS NULL THEN CHR(45)||CHR(45)
+    WHEN TRIM(TO_CHAR(udes.LEP_EntryDate)) = TO_CHAR('') THEN CHR(45) || CHR(45)
+    ELSE TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY')
+  END AS LEP_EntryDate,
+  CASE
+    WHEN udes.LEP_ExitDate IS NULL THEN CHR(45)||CHR(45)
+    WHEN TRIM(TO_CHAR(udes.LEP_ExitDate)) = TO_CHAR('') THEN CHR(45) || CHR(45)
+    ELSE TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY')
+  END AS LEP_ExitDate
 
 FROM Students s
 
@@ -46,22 +82,22 @@ WHERE s.Dcid = ~(rn)
       </colgroup>
       
       <tbody>
-        <tr>
-          <td>Household requires translation <span style="font-size:80%;">(PHLOTE)</span></td>
+        <tr data-field-name="Phlote">
+          <td>Household requires translation <span class="source_descr">(PHLOTE)</span></td>
           <td colspan="2" data-stored-code-value="~(Phlote)">~(Phlote)</td>
         </tr>
-        <tr>
-          <td>First/Native Language <span style="font-size:80%;">(DOE024)</span></td>
+        <tr data-field-name="NativeLanguage">
+          <td>First/Native Language <span class="source_descr">(DOE024)</span></td>
           <td colspan="2" data-stored-code-value="~(NativeLanguage_code)">~(NativeLanguage_value)</td>
         </tr>
-        <tr>
-          <td>ELE Program Status <span style="font-size:80%;">(DOE026)</span></td>
+        <tr data-field-name="LEPProgramStatus">
+          <td>ELE Program Status <span class="source_descr">(DOE026)</span></td>
           <td  colspan="2" data-stored-code-value="~(LEPProgramStatus_code)">~(LEPProgramStatus_value)</td>
         </tr>
-        <tr>
+        <tr data-field-name="LEP_EntryExitDates">
           <td>LEP Entry / Exit Dates</td>
-          <td>~(LEP_EntryDate)</td>
-          <td>~(LEP_ExitDate)</td>
+          <td data-field-name="LEP_EntryDate">~(LEP_EntryDate)</td>
+          <td data-field-name="LEP_ExitDate">~(LEP_ExitDate)</td>
         </tr>
       </tbody>
     </table>
