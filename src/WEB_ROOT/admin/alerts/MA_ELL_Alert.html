@@ -67,22 +67,22 @@ WHERE s.Dcid = ~(rn)
       </colgroup>
       
       <tbody>
-        <tr>
+        <tr data-field-name="Phlote">
           <td>Household requires translation <span style="font-size:80%;">(PHLOTE)</span></td>
           <td colspan="2" data-stored-code-value="~(Phlote)">~(Phlote)</td>
         </tr>
-        <tr>
+        <tr data-field-name="NativeLanguage">
           <td>First/Native Language <span style="font-size:80%;">(DOE024)</span></td>
           <td colspan="2" data-stored-code-value="~(NativeLanguage_code)">~(NativeLanguage_value)</td>
         </tr>
-        <tr>
+        <tr data-field-name="LEPProgramStatus">
           <td>ELE Program Status <span style="font-size:80%;">(DOE026)</span></td>
           <td  colspan="2" data-stored-code-value="~(LEPProgramStatus_code)">~(LEPProgramStatus_value)</td>
         </tr>
-        <tr>
+        <tr data-field-name="LEP_EntryExitDates">
           <td>LEP Entry / Exit Dates</td>
-          <td>~(LEP_EntryDate)</td>
-          <td>~(LEP_ExitDate)</td>
+          <td data-field-name="LEP_EntryDate">~(LEP_EntryDate)</td>
+          <td data-field-name="LEP_ExitDate">~(LEP_ExitDate)</td>
         </tr>
       </tbody>
     </table>
