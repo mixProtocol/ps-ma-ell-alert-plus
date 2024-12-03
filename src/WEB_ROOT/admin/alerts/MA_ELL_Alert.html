@@ -102,5 +102,58 @@ WHERE s.Dcid = ~(rn)
       </tbody>
     </table>
 [/tlist_sql]
+    <table id="ma_ell_student_test_scores_sdcid_~(rn)" class="grid" style="border: 1px solid lightgray; text-align: center;" >
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="4">Recent ACCESS Scores</th>
+        </tr>
+        <tr>
+          <th>School Year</th>
+          <th>Overall Level</th>
+          <th>Next Progress Target</th>
+          <th>Last Progress Target</th>
+        </tr>
+      </thead>
+      <tbody>
+~[tlist_sql;
+SELECT
+ trm.Name AS Term_Name,
+ MAX (CASE WHEN ts.name LIKE 'Overall level' THEN sts.numscore END) AS Overall_Level,
+ MAX (CASE WHEN ts.name LIKE '%rogress%arget%ext%ear' THEN sts.numscore END) AS Prog_Target_Next_Yr,
+ MAX (CASE WHEN ts.name LIKE '%rogress%arget%his%ear' AND  sts.numscore=0 THEN NULL
+           WHEN ts.name LIKE '%rogress%arget%his%ear' THEN sts.numscore
+      END) AS Prog_Target_This_Yr
+
+FROM Students s
+JOIN StudentTestScore sts ON s.ID = sts.StudentID
+JOIN StudentTest st ON sts.StudentTestID = st.ID
+JOIN Test t ON st.TestID = t.ID
+JOIN TestScore ts ON sts.TestScoreID = ts.ID
+JOIN Terms trm ON st.TermId = trm.Id AND trm.SchoolId = 0
+
+WHERE s.Dcid = ~(rn)
+  AND t.Name = 'ACCESS'
+  AND ( ts.Name LIKE 'Overall level'
+        OR ts.Name LIKE '%rogress%arget%' )
+
+GROUP BY s.Dcid, trm.Name
+ORDER BY s.Dcid, trm.Name DESC
+FETCH FIRST 3 ROWS ONLY;
+]
+        <tr>
+          <td>~(term_name)</td>
+          <td>~(Overall_Level)</td>
+          <td>~(Prog_Target_Next_Yr)</td>
+          <td>~(Prog_Target_This_Yr)</td>
+        </tr>
+[/tlist_sql]
+      </tbody>
+    </table>
   </div>
 </div>
