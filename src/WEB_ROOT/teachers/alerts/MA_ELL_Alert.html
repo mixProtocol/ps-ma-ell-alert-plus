@@ -4,19 +4,28 @@
   table[id^="ma_ell_student_alert_sdcid"]:has([data-field-name="Phlote"] > [data-stored-code-value^="Yes"]) [data-field-name="NativeLanguage"] [data-stored-code-value] {
     font-weight: bold;
   }
+
   /* Reduce the visibility of the source descriptors, ie: '(DOE024)') */
   [data-field-name] .source_descr {
     font-size: 80%;
     font-weight: normal;
     color: grey;
   }
-  /* Make the term names bold, ie: '(2024 - 2025)' */
+
+  /* Make the term names bold, ie: '(2024-2025)' */
   table[id^="ma_ell_student_test_scores_sdcid_"] .Term_Name {
     font-weight: bold;
   }
+
   /* header for the ACCESS scores table */
   table[id^="ma_ell_student_test_scores_sdcid_"] .ma_ell_test_score_header {
     background-color: aliceblue;
+  }
+
+  table[id^="ma_ell_student_test_scores_sdcid_"] .ma_ell_prog_targ_na {
+    font-size: 95%;
+    font-weight: normal;
+    color: grey;
   }
 </style>
 
@@ -29,14 +38,14 @@ SELECT
   s.Dcid AS s_dcid,
   CASE
     WHEN scf.Phlote IS NULL THEN 'No (value not set)'
-    WHEN UPPER(scf.Phlote) IN ('YES', '1') THEN 'Yes'
-    WHEN UPPER(scf.Phlote) IN ('NO', '0') THEN 'No'
+    WHEN UPPER(scf.Phlote) IN ('YES', 'TRUE', '1') THEN 'Yes'
+    WHEN UPPER(scf.Phlote) IN ('NO', 'FALSE', '0') THEN 'No'
     WHEN TRIM(TO_CHAR(scf.Phlote)) LIKE '' THEN 'No (value not set)'
   END AS Phlote,
   smsdx.NativeLanguage AS NativeLanguage_code,
   CASE
-    WHEN pscc_MA_NativeLang.Description IS NULL THEN CHR(45)||CHR(45)
-    WHEN TRIM(TO_CHAR(pscc_MA_NativeLang.Description)) LIKE '' THEN CHR(45)||CHR(45)
+    WHEN pscc_MA_NativeLang.Description IS NULL THEN CHR(45) ||CHR(45)
+    WHEN TRIM(TO_CHAR(pscc_MA_NativeLang.Description)) LIKE '' THEN CHR(45) || CHR(45)
     ELSE REPLACE(TO_CHAR(pscc_MA_NativeLang.Description), 
            CHR(40) || ' ' || TO_CHAR(smsdx.NativeLanguage) || ' ' || CHR(41),
            '') || ' ' || CHR(40) || smsdx.NativeLanguage || CHR(41)
@@ -48,26 +57,21 @@ SELECT
     ELSE TO_CHAR(pscc_MA_BilingualStat.Description)
   END AS LEPProgramStatus_descr,
   CASE
-    WHEN udes.LEP_EntryDate IS NULL THEN CHR(45)||CHR(45)
+    WHEN udes.LEP_EntryDate IS NULL THEN CHR(45) || CHR(45)
     WHEN TRIM(TO_CHAR(udes.LEP_EntryDate)) = TO_CHAR('') THEN CHR(45) || CHR(45)
     ELSE TO_CHAR(udes.LEP_EntryDate, 'MM/DD/YYYY')
   END AS LEP_EntryDate,
   CASE
-    WHEN udes.LEP_ExitDate IS NULL THEN CHR(45)||CHR(45)
+    WHEN udes.LEP_ExitDate IS NULL THEN CHR(45) || CHR(45)
     WHEN TRIM(TO_CHAR(udes.LEP_ExitDate)) = TO_CHAR('') THEN CHR(45) || CHR(45)
     ELSE TO_CHAR(udes.LEP_ExitDate, 'MM/DD/YYYY')
   END AS LEP_ExitDate
 
 FROM Students s
 
-LEFT OUTER JOIN StudentCoreFields scf
-  ON s.Dcid = scf.StudentsDcid
-  
-LEFT OUTER JOIN U_Def_Ext_Students udes
-  ON s.Dcid = udes.StudentsDcid
-  
-LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
-  ON s.Dcid = smsdx.StudentsDcid
+LEFT OUTER JOIN StudentCoreFields scf ON s.Dcid = scf.StudentsDcid
+LEFT OUTER JOIN U_Def_Ext_Students udes ON s.Dcid = udes.StudentsDcid
+LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx ON s.Dcid = smsdx.StudentsDcid
 
 LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_NativeLang
   ON smsdx.NativeLanguage = pscc_MA_NativeLang.Code 
@@ -169,7 +173,7 @@ FETCH FIRST 4 ROWS ONLY;
 <script type="text/javascript">
   (function () {
     // if the table includes a blank value for the earliest progress target, then set that cell to '--'
-    $j('[id^="ma_ell_student_test_scores_sdcid_"] tr td.Term_Name').last().next('.Prog_Target_This_Yr:empty:first').html('--');
+    $j('[id^="ma_ell_student_test_scores_sdcid_"] tr td.Term_Name').last().next('.Prog_Target_This_Yr:empty:first').html('<span class="ma_ell_prog_targ_na">n/a</span>');
 
     // if the scores tables has a row with results, then show the table
     $j('[id^="ma_ell_student_test_scores_sdcid_"]').has("tr td.Term_Name").show();
