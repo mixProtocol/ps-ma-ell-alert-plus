@@ -10,6 +10,15 @@
     font-weight: normal;
     color: grey;
   }
+  
+  table[id^="ma_ell_student_test_scores_sdcid_"] .Term_Name {
+    font-weight: bold;
+  }
+  
+  table[id^="ma_ell_student_test_scores_sdcid_"] .ma_ell_test_score_header {
+    background-color: aliceblue;
+  }
+
 </style>
 
 <div class='studentAlert' id='alert-ma-ell-~(studentfrn)' style="width:640px;">
@@ -102,7 +111,7 @@ WHERE s.Dcid = ~(rn)
       </tbody>
     </table>
 [/tlist_sql]
-    <table id="ma_ell_student_test_scores_sdcid_~(rn)" class="grid" style="border: 1px solid lightgray; text-align: center;" >
+    <table id="ma_ell_student_test_scores_sdcid_~(rn)" class="grid" style="border: 1px solid lightgray; text-align: center; display: none;" >
       <colgroup>
         <col width="30%">
         <col width="40%">
@@ -110,12 +119,12 @@ WHERE s.Dcid = ~(rn)
       </colgroup>
       <thead>
         <tr>
-          <th colspan="3">Recent ACCESS Scores</th>
+          <th colspan="3" class="ma_ell_test_score_header">Recent ACCESS Scores</th>
         </tr>
         <tr>
           <th>School Year</th>
           <th>Progress Target</th>
-          <th>Overall Level Achieved</th>
+          <th>Overall Level</th>
         </tr>
       </thead>
       <tbody>
@@ -158,3 +167,7 @@ FETCH FIRST 4 ROWS ONLY;
     </table>
   </div>
 </div>
+<script type="text/javascript">
+  // if the scores tables has a row with results, then show the table
+  $j('[id^="ma_ell_student_test_scores_sdcid_"]').has("tr td.Term_Name").show()
+</script>
