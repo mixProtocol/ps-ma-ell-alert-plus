@@ -121,14 +121,15 @@ WHERE s.Dcid = ~(rn)
       <tbody>
 ~[tlist_sql;
 SELECT
- trm.Name,
- MAX (CASE 
-        WHEN ts.name LIKE '%rogress%arget%his%ear' AND sts.numscore IS NULL THEN NULL
-        WHEN ts.name LIKE '%rogress%arget%his%ear' AND sts.numscore = 0 THEN NULL
-        WHEN ts.name LIKE '%rogress%arget%his%ear' AND st.TermId = trm.Id THEN sts.numscore
-        WHEN ts.name LIKE '%rogress%arget%ext%ear' AND st.TermId = trm.Id - 100 THEN sts.numscore
-      END) AS Prog_Target_This_Yr,
- MAX (CASE WHEN ts.name LIKE 'Overall level' AND st.TermId = trm.Id THEN sts.numscore END) AS Overall_Level
+  trm.Name,
+  MAX( 
+    CASE 
+      WHEN ts.name LIKE '%rogress%arget%his%ear' AND sts.numscore IS NULL THEN NULL
+      WHEN ts.name LIKE '%rogress%arget%his%ear' AND sts.numscore = 0 THEN NULL
+      WHEN ts.name LIKE '%rogress%arget%his%ear' AND st.TermId = trm.Id THEN sts.numscore
+      WHEN ts.name LIKE '%rogress%arget%ext%ear' AND st.TermId = trm.Id - 100 THEN sts.numscore
+    END ) AS Prog_Target_This_Yr,
+  MAX (CASE WHEN ts.name LIKE 'Overall level' AND st.TermId = trm.Id THEN sts.numscore END) AS Overall_Level
 
 FROM Students s
 JOIN StudentTestScore sts ON s.ID = sts.StudentID
