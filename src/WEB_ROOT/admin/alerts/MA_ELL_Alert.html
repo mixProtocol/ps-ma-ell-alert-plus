@@ -10,15 +10,14 @@
     font-weight: normal;
     color: grey;
   }
-  
+
   table[id^="ma_ell_student_test_scores_sdcid_"] .Term_Name {
     font-weight: bold;
   }
-  
+
   table[id^="ma_ell_student_test_scores_sdcid_"] .ma_ell_test_score_header {
     background-color: aliceblue;
   }
-
 </style>
 
 <div class='studentAlert' id='alert-ma-ell-~(studentfrn)' style="width:640px;">
@@ -83,13 +82,13 @@ LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_BilingualStat
 WHERE s.Dcid = ~(rn)
 ]
     <table width="100%" id="ma_ell_student_alert_sdcid_~(s_dcid)" class="grid" style="border: 1px solid lightgray">
-      
+    
       <colgroup>
         <col width="50%">
         <col width="25%">
         <col width="25%">
       </colgroup>
-      
+    
       <tbody>
         <tr data-field-name="Phlote">
           <td>Household requires translation <span class="source_descr">(PHLOTE)</span></td>
@@ -101,7 +100,7 @@ WHERE s.Dcid = ~(rn)
         </tr>
         <tr data-field-name="LEPProgramStatus">
           <td>ELE Program Status <span class="source_descr">(DOE026)</span></td>
-          <td  colspan="2" data-stored-code-value="~(LEPProgramStatus_code)">~(LEPProgramStatus_value)</td>
+          <td colspan="2" data-stored-code-value="~(LEPProgramStatus_code)">~(LEPProgramStatus_value)</td>
         </tr>
         <tr data-field-name="LEP_EntryExitDates">
           <td>LEP Entry / Exit Dates</td>
@@ -168,11 +167,11 @@ FETCH FIRST 4 ROWS ONLY;
   </div>
 </div>
 <script type="text/javascript">
-(function () {
-  // if the table includes a blank value for the earliest progress target, then set that cell to '--'
-  $j('[id^="ma_ell_student_test_scores_sdcid_"] tr td.Term_Name').last().next('.Prog_Target_This_Yr:empty:first').html('--');
-  
-  // if the scores tables has a row with results, then show the table
-  $j('[id^="ma_ell_student_test_scores_sdcid_"]').has("tr td.Term_Name").show();
-})();
+  (function () {
+    // if the table includes a blank value for the earliest progress target, then set that cell to '--'
+    $j('[id^="ma_ell_student_test_scores_sdcid_"] tr td.Term_Name').last().next('.Prog_Target_This_Yr:empty:first').html('--');
+
+    // if the scores tables has a row with results, then show the table
+    $j('[id^="ma_ell_student_test_scores_sdcid_"]').has("tr td.Term_Name").show();
+  })();
 </script>
