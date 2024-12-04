@@ -46,10 +46,11 @@
       pscc_MA_CountryOfOrigin.Description AS CountryOfOrigin_descr,
       smsdx.NativeLanguage AS NativeLanguage_code,
       CASE
-        WHEN TRIM(TO_CHAR(pscc_MA_NativeLang.Description)) LIKE '' THEN '--'
+        WHEN pscc_MA_NativeLang.Description IS NULL THEN CHR(45) ||CHR(45)
+        WHEN TRIM(TO_CHAR(pscc_MA_NativeLang.Description)) LIKE '' THEN CHR(45) || CHR(45)
         ELSE REPLACE(TO_CHAR(pscc_MA_NativeLang.Description), 
-                CHR(40) || ' ' || TO_CHAR(smsdx.NativeLanguage) || ' ' || CHR(41),
-                '') || ' ' || CHR(40)||smsdx.NativeLanguage || CHR(41)
+               CHR(40) || ' ' || TO_CHAR(smsdx.NativeLanguage) || ' ' || CHR(41),
+               '') || ' ' || CHR(40) || smsdx.NativeLanguage || CHR(41)
       END AS NativeLanguage_descr,
       smsdx.LimitedEnglishProficiency AS LimitedEnglishProficiency_code,
       pscc_MA_EngProficiency.Description AS LimitedEnglishProficiency_descr,
@@ -62,7 +63,7 @@
       scf.DateOfEntryIntoUSA AS DateOfEntryIntoUSA,
       scf.PrimaryLanguage AS PrimaryLanguage,
       scf.SecondaryLanguage AS SecondaryLanguage
-    
+      
     FROM Students s
          
     LEFT OUTER JOIN U_Def_Ext_Students udes ON s.Dcid = udes.StudentsDcid
