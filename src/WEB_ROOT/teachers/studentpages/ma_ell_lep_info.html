@@ -65,20 +65,11 @@
     
     FROM Students s
          
-    LEFT OUTER JOIN U_Def_Ext_Students udes
-      ON s.Dcid = udes.StudentsDcid
-      
-    LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx
-      ON s.Dcid = smsdx.StudentsDcid
-      
-    LEFT OUTER JOIN StudentCoreFields scf
-      ON s.Dcid = scf.StudentsDcid
-    
-    LEFT OUTER JOIN S_MA_STU_SIMS_X smssx
-      ON s.Dcid = smssx.StudentsDcid
-    
-    LEFT OUTER JOIN S_Stu_X ssx
-      ON s.Dcid = ssx.StudentsDcid
+    LEFT OUTER JOIN U_Def_Ext_Students udes ON s.Dcid = udes.StudentsDcid
+    LEFT OUTER JOIN S_MA_Stu_Demographic_X smsdx ON s.Dcid = smsdx.StudentsDcid
+    LEFT OUTER JOIN StudentCoreFields scf ON s.Dcid = scf.StudentsDcid
+    LEFT OUTER JOIN S_MA_STU_SIMS_X smssx ON s.Dcid = smssx.StudentsDcid
+    LEFT OUTER JOIN S_Stu_X ssx ON s.Dcid = ssx.StudentsDcid
     
     LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_CountryOfOrigin
       ON smsdx.CountryOfOrigin = pscc_MA_CountryOfOrigin.Code
