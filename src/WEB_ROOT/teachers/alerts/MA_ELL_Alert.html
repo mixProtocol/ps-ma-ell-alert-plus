@@ -134,7 +134,7 @@ WHERE s.Dcid = ~(rn)
 ~[tlist_sql;
 SELECT
   trm.Name,
-  MAX( 
+  MAX ( 
     CASE 
       WHEN ts.name LIKE '%rogress%arget%his%ear' AND sts.numscore IS NULL THEN NULL
       WHEN ts.name LIKE '%rogress%arget%his%ear' AND sts.numscore = 0 THEN NULL
@@ -148,7 +148,10 @@ JOIN StudentTestScore sts ON s.ID = sts.StudentID
 JOIN StudentTest st ON sts.StudentTestID = st.ID
 JOIN Test t ON st.TestID = t.ID
 JOIN TestScore ts ON sts.TestScoreID = ts.ID
-JOIN Terms trm ON ( st.TermId = trm.Id OR st.TermId = trm.Id - 100) AND trm.SchoolId = 0
+JOIN Terms trm
+  ON  trm.SchoolId = 0
+ AND ( st.TermId = trm.Id
+       OR st.TermId = trm.Id - 100 ) 
 
 WHERE s.Dcid = ~(rn)
   AND t.Name = 'ACCESS'
@@ -172,7 +175,7 @@ FETCH FIRST 4 ROWS ONLY;
 </div>
 <script type="text/javascript">
   (function () {
-    // if the table includes a blank value for the earliest progress target, then set that cell to '--'
+    // if the table includes a blank value for the earliest progress target, then set that cell to 'n/a'
     $j('[id^="ma_ell_student_test_scores_sdcid_"] tr td.Term_Name').last().next('.Prog_Target_This_Yr:empty:first').html('<span class="ma_ell_prog_targ_na">n/a</span>');
 
     // if the scores tables has a row with results, then show the table
