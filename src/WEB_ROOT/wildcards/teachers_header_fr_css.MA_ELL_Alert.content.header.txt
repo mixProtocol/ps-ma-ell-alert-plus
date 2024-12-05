@@ -33,7 +33,7 @@ GROUP BY s.Dcid
   $j(document).ready(function () {
 
     if ($j('#page-heading-alerts,a.dialogM[id^="ma_ell_alert"').length === 0) {
-      const strPhloteAlertLink = "<a title='ELL/LEP/FLEP Alert' id='ma_ell_alert_~(stu_dcid)' href='/teachers/alerts/MA_ELL_Alert.html?frn=001~(stu_dcid)' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert' style='margin-right:2px;' /></a>";
+      const strPhloteAlertLink = "<a title='ELL/FLEP/Translation Alert' id='ma_ell_alert_~(stu_dcid)' href='/teachers/alerts/MA_ELL_Alert.html?frn=001~(stu_dcid)' class='dialogM'><img src='/images/img/MA_ELL_Alert.png' alt='ELL/LEP/FLEP Alert' style='margin-right:2px;' /></a>";
 
       $j('form,[name=navigation]').children('h1').append(strPhloteAlertLink);
     }
