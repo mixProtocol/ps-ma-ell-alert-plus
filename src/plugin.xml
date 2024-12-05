@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		    description="Student MA ELL Alert Plus"
 		    name="Student MA ELL Alert Plus"
-		    version="20241204.02"
+		    version="20241205.01"
 		    xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd">
 		
   <publisher name="George Skuse">
