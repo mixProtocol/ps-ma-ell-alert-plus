@@ -33,9 +33,15 @@
   <img class='alertImage' src='/images/img/MA_ELL_Alert.png' />
   <div class='alertContent'>
     <p class='alertHeader'>~(studentname)</p>
+    <table width="100%" id="ma_ell_student_alert_sdcid_~(rn)" class="grid" style="border: 1px solid lightgray">
+      <colgroup>
+        <col width="50%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>  
+      <tbody>
 ~[tlist_sql;
 SELECT
-  s.Dcid AS s_dcid,
   CASE
     WHEN scf.Phlote IS NULL THEN 'No (value not set)'
     WHEN UPPER(scf.Phlote) IN ('YES', 'TRUE', '1') THEN 'Yes'
@@ -85,15 +91,7 @@ LEFT OUTER JOIN PS_COMMON_CODE pscc_MA_BilingualStat
       
 WHERE s.Dcid = ~(rn)
 ]
-    <table width="100%" id="ma_ell_student_alert_sdcid_~(s_dcid)" class="grid" style="border: 1px solid lightgray">
-    
-      <colgroup>
-        <col width="50%">
-        <col width="25%">
-        <col width="25%">
-      </colgroup>
-    
-      <tbody>
+
         <tr data-field-name="Phlote">
           <td>Household requires translation <span class="source_descr">(PHLOTE)</span></td>
           <td colspan="2" data-stored-code-value="~(Phlote)">~(Phlote)</td>
@@ -111,9 +109,45 @@ WHERE s.Dcid = ~(rn)
           <td data-field-name="LEP_EntryDate">~(LEP_EntryDate)</td>
           <td data-field-name="LEP_ExitDate">~(LEP_ExitDate)</td>
         </tr>
+[/tlist_sql]
+
+~[tlist_sql;
+SELECT
+  MAX ( 
+    CASE 
+      WHEN sts.numscore IS NULL THEN NULL
+      WHEN sts.numscore = 0 THEN NULL
+      ELSE TO_CHAR(sts.numscore)
+    END ) AS ELD_Level,
+    trm.Name
+    
+FROM Students s
+JOIN StudentTestScore sts ON s.ID = sts.StudentID
+JOIN StudentTest st ON sts.StudentTestID = st.ID
+JOIN Test t ON st.TestID = t.ID
+JOIN TestScore ts ON sts.TestScoreID = ts.ID
+JOIN Terms trm
+  ON trm.SchoolId = 0
+ AND ( st.TermId = trm.Id ) 
+
+WHERE s.Dcid = ~(rn)
+  AND t.Name LIKE 'ELD%District%Level'
+  AND ts.Name LIKE 'WPS%ELD%evel'
+  AND sts.NumScore != 0
+
+GROUP BY s.Dcid, trm.Name
+
+ORDER BY s.Dcid, trm.Name DESC
+FETCH FIRST 1 ROWS ONLY;
+]
+        <tr data-field-name="District_ELD_Level">
+          <td>District ELD Level</td>
+          <td data-field-name="ELD_Level">~(LEP_EntryDate)</td>
+          <td data-field-name="ELD_Level_Date">~(LEP_ExitDate)</td>
+        </tr>
+[/tlist_sql]
       </tbody>
     </table>
-[/tlist_sql]
     <table id="ma_ell_student_test_scores_sdcid_~(rn)" class="grid" style="border: 1px solid lightgray; text-align: center; display: none;" >
       <colgroup>
         <col width="30%">
