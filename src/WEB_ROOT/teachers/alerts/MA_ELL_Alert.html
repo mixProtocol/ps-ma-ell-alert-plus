@@ -135,9 +135,9 @@ WHERE s.Dcid = ~(rn)
   AND ts.Name LIKE 'WPS%ELD%evel'
   AND sts.NumScore != 0
 
-GROUP BY s.Dcid, trm.Name
+GROUP BY s.Dcid, trm.Name, st.Test_Date
 
-ORDER BY s.Dcid, trm.Name DESC
+ORDER BY s.Dcid, trm.Name DESC, st.Test_Date DESC
 FETCH FIRST 1 ROWS ONLY;
 ]
         <tr data-field-name="District_ELD_Level">
